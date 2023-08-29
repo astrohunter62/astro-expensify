@@ -1,3 +1,5 @@
+/* eslint-disable no-console */
+/* eslint-disable no-unused-vars */
 import React, {useCallback, useEffect, useState, useRef} from 'react';
 import {ActivityIndicator, View, InteractionManager} from 'react-native';
 import {withOnyx} from 'react-native-onyx';
@@ -101,22 +103,22 @@ function BaseWalletPage(props) {
         }
     }, [paymentMethod.selectedPaymentMethod.bankAccountID, paymentMethod.selectedPaymentMethod.fundID, paymentMethod.selectedPaymentMethodType]);
 
-    const resetSelectedPaymentMethodData = useCallback(() => {
-        // The below state values are used by payment method modals and we reset them while closing the modals.
-        // We should only reset the values when the modal animation is completed and so using InteractionManager.runAfterInteractions which fires after all animaitons are complete
-        InteractionManager.runAfterInteractions(() => {
-            // Reset to same values as in the constructor
-            setPaymentMethod({
-                isSelectedPaymentMethodDefault: false,
-                selectedPaymentMethod: {},
-                formattedSelectedPaymentMethod: {
-                    title: '',
-                },
-                methodID: null,
-                selectedPaymentMethodType: null,
-            });
-        });
-    }, [setPaymentMethod]);
+    // const resetSelectedPaymentMethodData = useCallback(() => {
+    //     // The below state values are used by payment method modals and we reset them while closing the modals.
+    //     // We should only reset the values when the modal animation is completed and so using InteractionManager.runAfterInteractions which fires after all animaitons are complete
+    //     InteractionManager.runAfterInteractions(() => {
+    //         // Reset to same values as in the constructor
+    //         setPaymentMethod({
+    //             isSelectedPaymentMethodDefault: false,
+    //             selectedPaymentMethod: {},
+    //             formattedSelectedPaymentMethod: {
+    //                 title: '',
+    //             },
+    //             methodID: null,
+    //             selectedPaymentMethodType: null,
+    //         });
+    //     });
+    // }, [setPaymentMethod]);
 
     /**
      * Display the delete/default menu, or the add payment method menu
@@ -167,13 +169,14 @@ function BaseWalletPage(props) {
                 formattedSelectedPaymentMethod,
                 methodID,
             });
-            setShouldShowDefaultDeleteMenu(true);
+            setShouldShowDefaultDeleteMenu(!shouldShowDefaultDeleteMenu);
             setMenuPosition();
             return;
         }
         setShouldShowAddPaymentMenu(true);
         setMenuPosition();
     };
+    console.log(shouldShowDefaultDeleteMenu);
 
     /**
      * Hide the add payment modal
@@ -218,11 +221,11 @@ function BaseWalletPage(props) {
             InteractionManager.runAfterInteractions(() => {
                 setShowConfirmDeleteContent(false);
                 if (shouldClearSelectedData) {
-                    resetSelectedPaymentMethodData();
+                    // resetSelectedPaymentMethodData();
                 }
             });
         },
-        [setShouldShowDefaultDeleteMenu, setShowConfirmDeleteContent, resetSelectedPaymentMethodData],
+        [setShouldShowDefaultDeleteMenu, setShowConfirmDeleteContent],
     );
 
     const makeDefaultPaymentMethod = useCallback(() => {
@@ -237,7 +240,7 @@ function BaseWalletPage(props) {
         } else if (paymentMethod.selectedPaymentMethodType === CONST.PAYMENT_METHODS.DEBIT_CARD) {
             PaymentMethods.makeDefaultPaymentMethod(null, paymentMethod.selectedPaymentMethod.fundID, previousPaymentMethod, currentPaymentMethod);
         }
-        resetSelectedPaymentMethodData();
+        // resetSelectedPaymentMethodData();
     }, [
         paymentMethod.methodID,
         paymentMethod.selectedPaymentMethod.bankAccountID,
@@ -245,7 +248,7 @@ function BaseWalletPage(props) {
         paymentMethod.selectedPaymentMethodType,
         props.bankAccountList,
         props.fundList,
-        resetSelectedPaymentMethodData,
+        // resetSelectedPaymentMethodData,
     ]);
 
     const deletePaymentMethod = useCallback(() => {
@@ -256,8 +259,8 @@ function BaseWalletPage(props) {
         } else if (paymentMethod.selectedPaymentMethodType === CONST.PAYMENT_METHODS.DEBIT_CARD) {
             PaymentMethods.deletePaymentCard(paymentMethod.selectedPaymentMethod.fundID);
         }
-        resetSelectedPaymentMethodData();
-    }, [paymentMethod.selectedPaymentMethod.bankAccountID, paymentMethod.selectedPaymentMethod.fundID, paymentMethod.selectedPaymentMethodType, resetSelectedPaymentMethodData]);
+        // resetSelectedPaymentMethodData();
+    }, [paymentMethod.selectedPaymentMethod.bankAccountID, paymentMethod.selectedPaymentMethod.fundID, paymentMethod.selectedPaymentMethodType]);
 
     const navigateToTransferBalancePage = () => {
         Navigation.navigate(ROUTES.SETTINGS_WALLET_TRANSFER_BALANCE);
@@ -424,7 +427,7 @@ function BaseWalletPage(props) {
                     right: anchorPosition.anchorPositionRight,
                 }}
                 withoutOverlay
-                anchorRef={deletePaymentMethodAnchorRef}
+                anchorRef={paymentMethodButtonRef}
             >
                 {!showConfirmDeleteContent ? (
                     <View style={[styles.m5, !isSmallScreenWidth ? styles.sidebarPopover : '']}>
