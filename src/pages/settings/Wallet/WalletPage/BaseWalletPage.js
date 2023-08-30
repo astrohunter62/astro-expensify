@@ -70,7 +70,7 @@ function BaseWalletPage(props) {
     }, [props.isLoadingPaymentMethods, props.network.isOffline, shouldShowLoadingSpinner]);
 
     const debounceSetShouldShowLoadingSpinner = _.debounce(updateShouldShowLoadingSpinner, CONST.TIMING.SHOW_LOADING_SPINNER_DEBOUNCE_TIME);
-
+    console.log('Payment Method', paymentMethod);
     /**
      * Set position of the payment menu
      *
@@ -80,7 +80,7 @@ function BaseWalletPage(props) {
         if (!paymentMethodButtonRef.current) return;
 
         const position = getClickedTargetLocation(paymentMethodButtonRef.current);
-
+        console.log('position', position);
         setAnchorPosition({
             anchorPositionTop: position.top + position.height + variables.addPaymentPopoverTopSpacing,
 
@@ -103,22 +103,22 @@ function BaseWalletPage(props) {
         }
     }, [paymentMethod.selectedPaymentMethod.bankAccountID, paymentMethod.selectedPaymentMethod.fundID, paymentMethod.selectedPaymentMethodType]);
 
-    // const resetSelectedPaymentMethodData = useCallback(() => {
-    //     // The below state values are used by payment method modals and we reset them while closing the modals.
-    //     // We should only reset the values when the modal animation is completed and so using InteractionManager.runAfterInteractions which fires after all animaitons are complete
-    //     InteractionManager.runAfterInteractions(() => {
-    //         // Reset to same values as in the constructor
-    //         setPaymentMethod({
-    //             isSelectedPaymentMethodDefault: false,
-    //             selectedPaymentMethod: {},
-    //             formattedSelectedPaymentMethod: {
-    //                 title: '',
-    //             },
-    //             methodID: null,
-    //             selectedPaymentMethodType: null,
-    //         });
-    //     });
-    // }, [setPaymentMethod]);
+    const resetSelectedPaymentMethodData = useCallback(() => {
+        // The below state values are used by payment method modals and we reset them while closing the modals.
+        // We should only reset the values when the modal animation is completed and so using InteractionManager.runAfterInteractions which fires after all animaitons are complete
+        InteractionManager.runAfterInteractions(() => {
+            // Reset to same values as in the constructor
+            setPaymentMethod({
+                isSelectedPaymentMethodDefault: false,
+                selectedPaymentMethod: {},
+                formattedSelectedPaymentMethod: {
+                    title: '',
+                },
+                methodID: null,
+                selectedPaymentMethodType: null,
+            });
+        });
+    }, [setPaymentMethod]);
 
     /**
      * Display the delete/default menu, or the add payment method menu
@@ -136,7 +136,6 @@ function BaseWalletPage(props) {
         }
 
         paymentMethodButtonRef.current = nativeEvent.currentTarget;
-
         // The delete/default menu
         if (accountType) {
             let formattedSelectedPaymentMethod;
@@ -221,11 +220,11 @@ function BaseWalletPage(props) {
             InteractionManager.runAfterInteractions(() => {
                 setShowConfirmDeleteContent(false);
                 if (shouldClearSelectedData) {
-                    // resetSelectedPaymentMethodData();
+                    resetSelectedPaymentMethodData();
                 }
             });
         },
-        [setShouldShowDefaultDeleteMenu, setShowConfirmDeleteContent],
+        [setShouldShowDefaultDeleteMenu, setShowConfirmDeleteContent, resetSelectedPaymentMethodData],
     );
 
     const makeDefaultPaymentMethod = useCallback(() => {
@@ -240,6 +239,7 @@ function BaseWalletPage(props) {
         } else if (paymentMethod.selectedPaymentMethodType === CONST.PAYMENT_METHODS.DEBIT_CARD) {
             PaymentMethods.makeDefaultPaymentMethod(null, paymentMethod.selectedPaymentMethod.fundID, previousPaymentMethod, currentPaymentMethod);
         }
+        console.log('makeDefaultPaymentMethod');
         // resetSelectedPaymentMethodData();
     }, [
         paymentMethod.methodID,
@@ -260,6 +260,7 @@ function BaseWalletPage(props) {
             PaymentMethods.deletePaymentCard(paymentMethod.selectedPaymentMethod.fundID);
         }
         // resetSelectedPaymentMethodData();
+        console.log('deletePaymentMethod');
     }, [paymentMethod.selectedPaymentMethod.bankAccountID, paymentMethod.selectedPaymentMethod.fundID, paymentMethod.selectedPaymentMethodType]);
 
     const navigateToTransferBalancePage = () => {
