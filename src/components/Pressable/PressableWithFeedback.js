@@ -1,3 +1,4 @@
+/* eslint-disable no-console */
 import React, {forwardRef, useState} from 'react';
 import _ from 'underscore';
 import propTypes from 'prop-types';
@@ -58,9 +59,11 @@ const PressableWithFeedback = forwardRef((props, ref) => {
                 isExecuting={isExecuting}
                 onHoverIn={() => {
                     setIsHovered(true);
+                    console.warn('hoverin', props.onHoverIn);
                     if (props.onHoverIn) props.onHoverIn();
                 }}
                 onHoverOut={() => {
+                    console.error('hoverOut', props.onHoverOut);
                     setIsHovered(false);
                     if (props.onHoverOut) props.onHoverOut();
                 }}

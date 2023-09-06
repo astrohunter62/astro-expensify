@@ -1,3 +1,4 @@
+/* eslint-disable no-console */
 import _ from 'underscore';
 import React, {Component} from 'react';
 import {propTypes, defaultProps} from './hoverablePropTypes';
@@ -48,7 +49,7 @@ class Hoverable extends Component {
         if (this.props.disabled) {
             return;
         }
-
+        console.log('setIsHovered', isHovered);
         if (isHovered !== this.state.isHovered) {
             this.setState({isHovered}, isHovered ? this.props.onHoverIn : this.props.onHoverOut);
         }
@@ -93,13 +94,14 @@ class Hoverable extends Component {
             },
             onMouseEnter: (el) => {
                 this.setIsHovered(true);
-
+                console.log('mouseEnter');
                 if (_.isFunction(child.props.onMouseEnter)) {
                     child.props.onMouseEnter(el);
                 }
             },
             onMouseLeave: (el) => {
                 this.setIsHovered(false);
+                console.log('mousLeave');
 
                 if (_.isFunction(child.props.onMouseLeave)) {
                     child.props.onMouseLeave(el);
@@ -108,6 +110,7 @@ class Hoverable extends Component {
             onBlur: (el) => {
                 // Check if the blur event occurred due to clicking outside the element
                 // and the wrapperView contains the element that caused the blur and reset isHovered
+                console.log('onBlur');
                 if (!this.wrapperView.contains(el.target) && !this.wrapperView.contains(el.relatedTarget)) {
                     this.setIsHovered(false);
                 }
