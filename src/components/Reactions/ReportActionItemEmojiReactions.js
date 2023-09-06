@@ -113,7 +113,8 @@ function ReportActionItemEmojiReactions(props) {
     return (
         totalReactionCount > 0 && (
             <View
-                ref={popoverReactionListAnchor}
+                // ref={popoverReactionListAnchor}
+                // ref={props.forwardedRef}
                 style={[styles.flexRow, styles.flexWrap, styles.gap1, styles.mt2]}
             >
                 {_.map(formattedReactions, (reaction) => {
@@ -135,7 +136,8 @@ function ReportActionItemEmojiReactions(props) {
                         >
                             <View>
                                 <EmojiReactionBubble
-                                    ref={props.forwardedRef}
+                                    ref={popoverReactionListAnchor}
+                                    // ref={props.forwardedRef}
                                     count={reaction.reactionCount}
                                     emojiCodes={reaction.emojiCodes}
                                     onPress={reaction.onPress}

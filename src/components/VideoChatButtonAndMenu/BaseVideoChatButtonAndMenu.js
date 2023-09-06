@@ -19,6 +19,7 @@ import {propTypes as videoChatButtonAndMenuPropTypes, defaultProps} from './vide
 import * as Session from '../../libs/actions/Session';
 import PressableWithoutFeedback from '../Pressable/PressableWithoutFeedback';
 import * as Link from '../../libs/actions/Link';
+// import withNavigationFocus from '../withNavigationFocus';
 
 const propTypes = {
     /** Link to open when user wants to create a new google meet meeting */
@@ -34,7 +35,12 @@ function BaseVideoChatButtonAndMenu(props) {
     const [videoChatIconPosition, setVideoChatIconPosition] = useState({x: 0, y: 0});
     const videoChatIconWrapperRef = useRef(null);
     const videoChatButtonRef = useRef(null);
-
+    // useEffect(() => {
+    //     if (props.isFocused) {
+    //         return;
+    //     }
+    //     setIsVideoChatMenuActive(false);
+    // }, [props.isFocused]);
     const menuItemData = [
         {
             icon: ZoomIcon,

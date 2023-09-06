@@ -26,7 +26,19 @@ function PopoverContextProvider(props) {
         activePopoverRef.current = null;
         setIsOpen(false);
     }, []);
-
+    React.useEffect(() => {
+        const listener = () => {
+            if (!activePopoverRef.current) {
+                return;
+            }
+            const ref = activePopoverRef.current.anchorRef;
+            closePopover(ref);
+        };
+        window.addEventListener('popstate', listener, true);
+        return () => {
+            window.removeEventListener('popstate', listener, true);
+        };
+    }, [closePopover]);
     React.useEffect(() => {
         const listener = (e) => {
             if (
