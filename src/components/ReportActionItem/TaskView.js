@@ -60,66 +60,62 @@ function TaskView(props) {
                 errorRowStyles={styles.ph5}
             >
                 <Hoverable>
-                    {(hovered) => {
-                        console.log('hovered', hovered);
-                        return (
-                            <PressableWithSecondaryInteraction
-                                onPress={Session.checkIfActionIsAllowed((e) => {
-                                    if (e && e.type === 'click') {
-                                        e.currentTarget.blur();
-                                    }
+                    {(hovered) => (
+                        <PressableWithSecondaryInteraction
+                            onPress={Session.checkIfActionIsAllowed((e) => {
+                                if (e && e.type === 'click') {
+                                    e.currentTarget.blur();
+                                }
 
-                                    Navigation.navigate(ROUTES.getTaskReportTitleRoute(props.report.reportID));
-                                })}
-                                style={({pressed}) => [styles.ph5, styles.pv2, StyleUtils.getButtonBackgroundColorStyle(getButtonState(hovered, pressed, false, disableState), true)]}
-                                ref={props.forwardedRef}
-                                disabled={disableState}
-                                accessibilityLabel={taskTitle || props.translate('task.task')}
-                            >
-                                {({pressed}) => (
-                                    <OfflineWithFeedback pendingAction={lodashGet(props, 'report.pendingFields.reportName')}>
-                                        <Text style={styles.taskTitleDescription}>{props.translate('task.title')}</Text>
-                                        <View style={[styles.flexRow, styles.alignItemsTop, styles.flex1]}>
-                                            <Checkbox
-                                                onPress={Session.checkIfActionIsAllowed(() => {
-                                                    if (isCompleted) {
-                                                        Task.reopenTask(props.report, taskTitle);
-                                                        console.log('completed');
-                                                    } else {
-                                                        Task.completeTask(props.report, taskTitle);
-                                                    }
-                                                })}
-                                                isChecked={isCompleted}
-                                                style={styles.taskMenuItemCheckbox}
-                                                containerSize={24}
-                                                containerBorderRadius={8}
-                                                caretSize={16}
-                                                accessibilityLabel={taskTitle || props.translate('task.task')}
-                                                disabled={isCanceled || !canModifyTask}
-                                            />
-                                            <View style={[styles.flexRow, styles.flex1]}>
-                                                <Text
-                                                    numberOfLines={3}
-                                                    style={styles.taskTitleMenuItem}
-                                                >
-                                                    {taskTitle}
-                                                </Text>
-                                            </View>
-                                            {isOpen && (
-                                                <View style={styles.taskRightIconContainer}>
-                                                    <Icon
-                                                        additionalStyles={[styles.alignItemsCenter]}
-                                                        src={Expensicons.ArrowRight}
-                                                        fill={StyleUtils.getIconFillColor(getButtonState(hovered, pressed, false, disableState))}
-                                                    />
-                                                </View>
-                                            )}
+                                Navigation.navigate(ROUTES.getTaskReportTitleRoute(props.report.reportID));
+                            })}
+                            style={({pressed}) => [styles.ph5, styles.pv2, StyleUtils.getButtonBackgroundColorStyle(getButtonState(hovered, pressed, false, disableState), true)]}
+                            ref={props.forwardedRef}
+                            disabled={disableState}
+                            accessibilityLabel={taskTitle || props.translate('task.task')}
+                        >
+                            {({pressed}) => (
+                                <OfflineWithFeedback pendingAction={lodashGet(props, 'report.pendingFields.reportName')}>
+                                    <Text style={styles.taskTitleDescription}>{props.translate('task.title')}</Text>
+                                    <View style={[styles.flexRow, styles.alignItemsTop, styles.flex1]}>
+                                        <Checkbox
+                                            onPress={Session.checkIfActionIsAllowed(() => {
+                                                if (isCompleted) {
+                                                    Task.reopenTask(props.report, taskTitle);
+                                                } else {
+                                                    Task.completeTask(props.report, taskTitle);
+                                                }
+                                            })}
+                                            isChecked={isCompleted}
+                                            style={styles.taskMenuItemCheckbox}
+                                            containerSize={24}
+                                            containerBorderRadius={8}
+                                            caretSize={16}
+                                            accessibilityLabel={taskTitle || props.translate('task.task')}
+                                            disabled={isCanceled || !canModifyTask}
+                                        />
+                                        <View style={[styles.flexRow, styles.flex1]}>
+                                            <Text
+                                                numberOfLines={3}
+                                                style={styles.taskTitleMenuItem}
+                                            >
+                                                {taskTitle}
+                                            </Text>
                                         </View>
-                                    </OfflineWithFeedback>
-                                )}
-                            </PressableWithSecondaryInteraction>
-                        );
-                    }}
+                                        {isOpen && (
+                                            <View style={styles.taskRightIconContainer}>
+                                                <Icon
+                                                    additionalStyles={[styles.alignItemsCenter]}
+                                                    src={Expensicons.ArrowRight}
+                                                    fill={StyleUtils.getIconFillColor(getButtonState(hovered, pressed, false, disableState))}
+                                                />
+                                            </View>
+                                        )}
+                                    </View>
+                                </OfflineWithFeedback>
+                            )}
+                        </PressableWithSecondaryInteraction>
+                    )}
                 </Hoverable>
                 <OfflineWithFeedback pendingAction={lodashGet(props, 'report.pendingFields.description')}>
                     <MenuItemWithTopDescription
