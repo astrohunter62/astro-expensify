@@ -1,3 +1,4 @@
+/* eslint-disable no-console */
 import React, {useRef, useState, useEffect, useMemo, useCallback} from 'react';
 import {withOnyx} from 'react-native-onyx';
 import PropTypes from 'prop-types';
@@ -132,6 +133,7 @@ function ReportScreen({
     isComposerFullSize,
     errors,
 }) {
+    console.log('RepoortScreen');
     const firstRenderRef = useRef(true);
     const flatListRef = useRef();
     const reactionListRef = useRef();
@@ -263,7 +265,6 @@ function ReportScreen({
         // I'm disabling the warning, as it expects to use exhaustive deps, even though we want this useEffect to run only on the first render.
         // eslint-disable-next-line react-hooks/exhaustive-deps
     }, []);
-
     useEffect(() => {
         // We don't want this effect to run on the first render.
         if (firstRenderRef.current) {

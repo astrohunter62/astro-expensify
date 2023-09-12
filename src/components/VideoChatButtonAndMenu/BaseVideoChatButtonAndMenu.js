@@ -34,7 +34,6 @@ function BaseVideoChatButtonAndMenu(props) {
     const [videoChatIconPosition, setVideoChatIconPosition] = useState({x: 0, y: 0});
     const videoChatIconWrapperRef = useRef(null);
     const videoChatButtonRef = useRef(null);
-    console.log('BaseVideoChatButtonAndMenu', BaseVideoChatButtonAndMenu);
 
     const menuItemData = [
         {
