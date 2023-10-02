@@ -1,5 +1,7 @@
+/* eslint-disable no-console */
 import React, {useRef, useCallback, useState, useEffect} from 'react';
 import {View, FlatList, PixelRatio, Keyboard} from 'react-native';
+import {useNavigation} from '@react-navigation/native';
 import {withOnyx} from 'react-native-onyx';
 import _ from 'underscore';
 import styles from '../../../styles/styles';
@@ -37,7 +39,24 @@ function AttachmentCarousel({report, reportActions, source, onNavigate, setDownl
     const [attachments, setAttachments] = useState([]);
     const [activeSource, setActiveSource] = useState(source);
     const [shouldShowArrows, setShouldShowArrows, autoHideArrows, cancelAutoHideArrows] = useCarouselArrows();
-
+    const [focused, setFocused] = useState();
+    const navigation = useNavigation();
+    useEffect(() => {
+        console.log('AttachmentCarousel');
+        console.log('navigation', Navigation.getActiveRoute());
+    }, []);
+    useEffect(() => {
+        const subscribeFocusEvent = navigation.addListener('focus', () => {
+            setFocused(true);
+        });
+        const subscribeBlurEvent = navigation.addListener('blur', () => {
+            setFocused(false);
+        });
+        return () => {
+            subscribeFocusEvent();
+            subscribeBlurEvent();
+        };
+    }, [focused, navigation]);
     const compareImage = useCallback(
         (attachment) => {
             if (attachment.isReceipt) {
@@ -92,7 +111,7 @@ function AttachmentCarousel({report, reportActions, source, onNavigate, setDownl
 
             setPage(entry.index);
             setActiveSource(entry.item.source);
-
+            console.log('updatePage', entry.item);
             onNavigate(entry.item);
         },
         [onNavigate],

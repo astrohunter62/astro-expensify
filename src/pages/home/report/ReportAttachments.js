@@ -1,3 +1,4 @@
+/* eslint-disable no-console */
 import React from 'react';
 import _ from 'underscore';
 import PropTypes from 'prop-types';
@@ -30,7 +31,10 @@ function ReportAttachments(props) {
             defaultOpen
             report={report}
             source={source}
-            onModalHide={() => Navigation.dismissModal(reportID)}
+            onModalHide={() => {
+                console.log('onModalHide', reportID);
+                Navigation.dismissModal(reportID);
+            }}
             onCarouselAttachmentChange={(attachment) => {
                 const route = ROUTES.REPORT_ATTACHMENTS.getRoute(reportID, attachment.source);
                 Navigation.navigate(route);

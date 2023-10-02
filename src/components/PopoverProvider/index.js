@@ -1,3 +1,4 @@
+/* eslint-disable no-console */
 import React from 'react';
 import PropTypes from 'prop-types';
 
@@ -65,6 +66,7 @@ function PopoverContextProvider(props) {
             if (e.key !== 'Escape') {
                 return;
             }
+            console.log('escape', e.target);
             closePopover();
         };
         document.addEventListener('keydown', listener, true);

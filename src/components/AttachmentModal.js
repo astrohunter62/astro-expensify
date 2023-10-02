@@ -1,4 +1,5 @@
-import React, {useState, useCallback, useRef} from 'react';
+/* eslint-disable no-console */
+import React, {useState, useCallback, useRef, useEffect} from 'react';
 import PropTypes from 'prop-types';
 import {View, Animated, Keyboard} from 'react-native';
 import Str from 'expensify-common/lib/str';
@@ -314,6 +315,7 @@ function AttachmentModal(props) {
      * close the modal
      */
     const closeModal = useCallback(() => {
+        console.log('CloseModal');
         setIsModalOpen(false);
     }, []);
 
@@ -325,7 +327,9 @@ function AttachmentModal(props) {
     }, []);
 
     const sourceForAttachmentView = props.source || source;
-
+    useEffect(() => {
+        console.log('AttachmentModal');
+    }, []);
     return (
         <>
             <Modal
