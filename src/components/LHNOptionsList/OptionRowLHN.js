@@ -160,7 +160,6 @@ function OptionRowLHN(props) {
                             if (!e) {
                                 return;
                             }
-
                             // Prevent losing Composer focus
                             e.preventDefault();
                         }}
