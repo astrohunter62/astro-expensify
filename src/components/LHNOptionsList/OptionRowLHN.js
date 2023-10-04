@@ -156,17 +156,17 @@ function OptionRowLHN(props) {
 
                             props.onSelectRow(optionItem, popoverAnchor);
                         }}
-                        onMouseDown={(e) => {
-                            if (!e) {
-                                return;
-                            }
+                        // onMouseDown={(e) => {
+                        //     if (!e) {
+                        //         return;
+                        //     }
 
-                            // Prevent losing Composer focus
-                            e.preventDefault();
-                        }}
+                        //     // Prevent losing Composer focus
+                        //     e.preventDefault();
+                        // }}
                         onSecondaryInteraction={(e) => {
                             showPopover(e);
-                            DomUtils.blurActiveElement();
+                            // DomUtils.blurActiveElement();    // alternative
                         }}
                         withoutFocusOnSecondaryInteraction
                         activeOpacity={0.8}
