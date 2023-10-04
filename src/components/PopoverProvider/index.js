@@ -1,5 +1,7 @@
 import React from 'react';
 import PropTypes from 'prop-types';
+import ReportActionCompose from '../../pages/home/report/ReportActionCompose/ReportActionCompose';
+import ReportActionComposeFocusManager from '../../libs/ReportActionComposeFocusManager';
 
 const propTypes = {
     children: PropTypes.node.isRequired,
@@ -23,6 +25,7 @@ function PopoverContextProvider(props) {
             return;
         }
         activePopoverRef.current.close();
+        ReportActionComposeFocusManager.focus();
         activePopoverRef.current = null;
         setIsOpen(false);
     }, []);
