@@ -25,8 +25,9 @@ function PopoverContextProvider(props) {
             return;
         }
         activePopoverRef.current.close();
-        ReportActionComposeFocusManager.focus();
         activePopoverRef.current = null;
+        ReportActionComposeFocusManager.focus();
+
         setIsOpen(false);
     }, []);
 
