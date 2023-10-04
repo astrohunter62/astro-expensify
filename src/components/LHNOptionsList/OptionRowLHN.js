@@ -25,7 +25,6 @@ import * as ReportUtils from '../../libs/ReportUtils';
 import useLocalize from '../../hooks/useLocalize';
 import Permissions from '../../libs/Permissions';
 import Tooltip from '../Tooltip';
-import ReportActionComposeFocusManager from '../../libs/ReportActionComposeFocusManager';
 import DomUtils from '../../libs/DomUtils';
 
 const propTypes = {
