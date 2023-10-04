@@ -166,7 +166,7 @@ function OptionRowLHN(props) {
                         }}
                         onSecondaryInteraction={(e) => {
                             showPopover(e);
-                            DomUtils.blurActiveElement(); // add
+                            DomUtils.blurActiveElement();
                         }}
                         withoutFocusOnSecondaryInteraction
                         activeOpacity={0.8}
